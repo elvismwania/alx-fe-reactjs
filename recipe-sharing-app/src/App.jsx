@@ -4,19 +4,21 @@ import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 function App() {
-  // If you add other filters, they would go here.
   return (
     <Router>
       <div>
         <h1>Recipe Sharing App</h1>
         <SearchBar />
-        {/* If you add other filters, they would go here. */}
         <Routes>
           <Route path="/" element={<>
             <AddRecipeForm />
             <RecipeList />
+            <FavoritesList />
+            <RecommendationsList />
           </>} />
           <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
         </Routes>
