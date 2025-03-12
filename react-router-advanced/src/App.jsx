@@ -1,4 +1,3 @@
-// src/App.jsx
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -45,7 +44,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile/*" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/blog/:postId" element={<BlogPost />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
         </Routes>
       </div>
