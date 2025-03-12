@@ -1,39 +1,41 @@
-import { useQuery } from 'react-query'
+// src/PostsComponent.js
+
+import React from 'react';
+import { useQuery } from 'react-query';
 
 const fetchPosts = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-  if (!response.ok) throw new Error('Network response was not ok')
-  return response.json()
-}
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
 
-const PostsComponent = () => {
-  const { data, isLoading, error, refetch } = useQuery('posts', fetchPosts, {
-    refetchOnWindowFocus: false,
-  })
+function PostsComponent() {
+  const { data, isLoading, isError, error, refetch } = useQuery('posts', fetchPosts);
 
-  if (isLoading) return <div>Loading posts...</div>
-  if (error) return <div>Error: {error.message}</div>
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
-      <button onClick={refetch} style={{ marginBottom: '1rem' }}>
-        Refresh Posts
-      </button>
-      
-      <div style={{ display: 'grid', gap: '1rem' }}>
-        {data?.map(post => (
-          <div key={post.id} style={{ 
-            padding: '1rem', 
-            border: '1px solid #ccc',
-            borderRadius: '8px'
-          }}>
+      <h2>Posts</h2>
+      <button onClick={() => refetch()}>Refetch Posts</button>
+      <ul>
+        {data.map((post) => (
+          <li key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
-  )
+  );
 }
 
-export default PostsComponent
+export default PostsComponent;
