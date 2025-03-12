@@ -3,8 +3,12 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().required('Password is required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required')
 });
 
 const FormikForm = () => {
@@ -13,12 +17,10 @@ const FormikForm = () => {
       initialValues={{ username: '', email: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log('Submitting:', values);
-        // Simulate API call
         setTimeout(() => {
+          console.log('Form submitted:', values);
           setSubmitting(false);
-          console.log('Registration successful');
-        }, 1000);
+        }, 400);
       }}
     >
       {({ isSubmitting }) => (
@@ -28,16 +30,19 @@ const FormikForm = () => {
             <Field type="text" name="username" />
             <ErrorMessage name="username" component="div" className="error" />
           </div>
+
           <div>
             <label htmlFor="email">Email</label>
             <Field type="email" name="email" />
             <ErrorMessage name="email" component="div" className="error" />
           </div>
+
           <div>
             <label htmlFor="password">Password</label>
             <Field type="password" name="password" />
             <ErrorMessage name="password" component="div" className="error" />
           </div>
+
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Register'}
           </button>
