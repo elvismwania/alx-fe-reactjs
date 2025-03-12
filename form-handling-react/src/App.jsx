@@ -1,14 +1,10 @@
-// src/App.js
-
-import React from 'react';
-import RegistrationForm from './components/RegistrationForm';
-import FormikForm from './components/formikForm';
+import RegistrationForm from "./components/RegistrationForm"; // For Controlled Components
+import FormikForm from "./components/formikForm"; // For Formik
 
 function App() {
   return (
-    <div className="App">
-      <RegistrationForm />
-      <FormikForm />
+    <div className="flex justify-center items-center h-screen">
+      <FormikForm /> {/* Swap with RegistrationForm to see controlled version */}
     </div>
   );
 }
