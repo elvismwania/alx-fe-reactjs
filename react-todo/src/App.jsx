@@ -1,5 +1,4 @@
-import React from 'react';
-import TodoList from './components/TodoList';
+import TodoList from './components/TodoList.jsx'; // Add .jsx extension
 
 function App() {
   return (

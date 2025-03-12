@@ -1,33 +1,33 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React', completed: false },
     { id: 2, text: 'Build a Todo App', completed: true }
-  ])
-  const [newTodo, setNewTodo] = useState('')
+  ]);
+  const [newTodo, setNewTodo] = useState('');
 
   const addTodo = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (newTodo.trim()) {
       setTodos([...todos, {
         id: Date.now(),
         text: newTodo.trim(),
         completed: false
-      }])
-      setNewTodo('')
+      }]);
+      setNewTodo('');
     }
-  }
+  };
 
   const toggleTodo = (id) => {
     setTodos(todos.map(todo => 
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ))
-  }
+    ));
+  };
 
   const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id))
-  }
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
 
   return (
     <div>
@@ -38,24 +38,31 @@ const TodoList = () => {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
           placeholder="Add new todo"
+          data-testid="todo-input"
         />
-        <button type="submit">Add</button>
+        <button type="submit" data-testid="add-button">Add</button>
       </form>
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>
+          <li key={todo.id} data-testid={`todo-${todo.id}`}>
             <span
               style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
               onClick={() => toggleTodo(todo.id)}
+              data-testid="toggle-todo"
             >
               {todo.text}
             </span>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <button 
+              onClick={() => deleteTodo(todo.id)}
+              data-testid="delete-button"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default TodoList
+export default TodoList;
