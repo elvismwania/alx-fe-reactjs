@@ -1,24 +1,17 @@
 // src/App.jsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Profile from './components/Profile';
 import BlogPost from './components/BlogPost';
 import Login from './components/Login';
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import ProtectedRoute from './components/ProtectedRoute';
+import useAuth from './hooks/useAuth'; // Import useAuth
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  };
+  const { login, logout, isAuthenticated } = useAuth(); // Use useAuth
 
   return (
     <Router>
@@ -32,7 +25,7 @@ function App() {
             <li><a href="/blog/2">Blog Post 2</a></li>
           </ul>
           {isAuthenticated ? (
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={logout}>Logout</button>
           ) : (
             <button onClick={() => {}}> </button>
           )}
@@ -41,16 +34,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route
-            path="/profile/*"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/profile/*" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={login} />} />
         </Routes>
       </div>
     </Router>
