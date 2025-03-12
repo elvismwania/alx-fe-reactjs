@@ -1,11 +1,13 @@
+// src/App.jsx
 
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
 import Profile from './components/Profile';
 import BlogPost from './components/BlogPost';
 import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,10 +18,6 @@ function App() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-  };
-
-  const ProtectedRoute = ({ children }) => {
-    return isAuthenticated ? children : <Navigate to="/login" />;
   };
 
   return (
@@ -43,7 +41,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile/*" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route
+            path="/profile/*"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
         </Routes>
