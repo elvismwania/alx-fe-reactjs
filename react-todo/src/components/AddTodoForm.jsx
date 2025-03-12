@@ -1,29 +1,31 @@
-// src/components/AddTodoForm.js
+import { useState } from "react";
 
-import React, { useState } from 'react';
 
-function AddTodoForm({ addTodo }) {
-  const [text, setText] = useState('');
+function AddTodoForm({setTodos}) {
+    const [title, setTitle] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (text.trim()) {
-      addTodo(text);
-      setText('');
+    const addTodo = (e) => {
+        e.preventDefault();
+        if (!title.trim().length) {
+            alert("Todo title can't be empty!");
+            return
+        }
+        const newTodo = {id: Date.now(), title, completed: false};
+        setTodos(prev => [...prev, newTodo]);
+        setTitle('');
     }
-  };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Add new todo"
-      />
-      <button type="submit">Add</button>
-    </form>
-  );
+    return (
+        <form onSubmit={addTodo}>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="To do title"
+            />
+            <button type="submit">Add Todo</button>
+        </form>
+    )
 }
 
 export default AddTodoForm;
